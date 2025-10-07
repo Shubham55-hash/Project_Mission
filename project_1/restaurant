@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVKM Eats</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+
+    body {
+      width: 100%;
+      height: 100%;
+      background-color: #fffaf5;
+      color: #333;
+    }
+
+  
+    nav {
+      width: 100%;
+      height: 10vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 40px;
+      background: linear-gradient(to right, #e63946, #ff7b00);
+      color: white;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    #leftnav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    #leftnav img {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+    }
+
+    #leftnav p {
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    #rightnav {
+      display: flex;
+      gap: 25px;
+    }
+
+    #rightnav a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: all 1s ease;
+    }
+
+    #rightnav a:hover {
+      color: #ffdd00;
+      transform: scale(1.1);
+    }
+
+    #fakeh { height: 10vh; }
+
+    
+    #mainpage {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    #mainpage::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      animation: bgSlide 20s infinite;
+      z-index: 0;
+    }
+
+    @keyframes bgSlide {
+      0%   { background-image: url('f5.png'); }
+      25%  { background-image: url('f2.png'); }
+      50%  { background-image: url('f1.png'); }
+      75%  { background-image: url('f3.png'); }
+      100% { background-image: url('f5.png'); }
+    }
+
+    #overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1;
+    }
+
+    #text {
+      position: absolute;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    #text h1 {
+      font-size: 3.5rem;
+      color: #ffdd00;
+      margin-bottom: 15px;
+    }
+
+    #text p {
+      font-size: 1.7rem;
+      line-height: 1.5;
+    }
+
+    
+    #aboutus {
+      display: flex;
+      gap: 40px; 
+      padding: 70px 60px; 
+      background-color: #fff;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    #texts {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #texts h2 {
+      font-size: 3rem; 
+      color: #e63946;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    #texts p {
+      font-size: 1.5rem;
+      line-height: 2; 
+      color: #333;
+    }
+
+    #count {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin-top: 25px;
+    }
+
+    #count p{
+      font-size: 3.5rem; 
+      font-weight: bold;
+      color: #ff7b00;
+    }
+  
+    #count span{
+      font-size: 1.5rem;
+    }
+
+    #photos {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 15px;
+    }
+
+    #photos img {
+      width: 100%;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    
+    #service {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 60px;
+      background-color: #fef4e8;
+      flex-wrap: wrap;
+    }
+
+    .box {
+      width: 220px;
+      padding: 20px;
+      text-align: center;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .box img {
+      width: 70px;
+      margin-bottom: 15px;
+    }
+
+    .box h1 {
+      font-size: 1.3rem;
+      color: #e63946;
+      margin-bottom: 10px;
+    }
+
+    .box:hover {
+      background: linear-gradient(135deg,#ff7b00,#e63946);
+      color: white;
+      transform: translateY(-5px);
+    }
+
+    .box:hover h1 { color: #4CAF50; }
+
+    
+    #menu {
+      padding: 60px;
+      text-align: center;
+      background: #e63946;
+      color: white;
+    }
+
+    #food {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .looks {
+      background: white;
+      color: #333;
+      border-radius: 8px;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 300px;
+      transition: transform 0.3s;
+    }
+
+    .looks:hover { transform: scale(1.05); }
+
+    .looks img {
+      max-width: 150px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .looks h1 {
+      color: #e63946;
+      margin-bottom: 5px;
+    }
+
+    .looks span {
+      font-weight: bold;
+      color: #ff7b00;
+    }
+
+    
+    #members {
+      padding: 60px;
+      background: #fffaf5;
+      text-align: center;
+    }
+
+    #intro {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .boxes {
+      width: 220px;
+      padding: 20px;
+      border-radius: 10px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .boxes:hover { transform: translateY(-8px); }
+
+    .boxes img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    .boxes h1 { color: #e63946; }
+
+    
+    #reviews {
+      background: #fef4e8;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    #reviews h1 {
+      font-size: 3rem;
+      color: #e63946;
+      margin-bottom: 30px;
+    }
+
+    .review-slider {
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .reviews {
+      display: flex;
+      animation: slideReviews 30s infinite linear alternate;
+      will-change: transform;
+    }
+
+    .review {
+      flex: 0 0 100%;
+      box-sizing: border-box;
+      padding: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+      margin:20px;
+    }
+
+    .review p {
+      font-size: 2rem;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    .review h3 {
+      color: #ff7b00;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    @keyframes slideReviews {
+      0%,25%   { transform: translateX(0%); }
+      25%,50%  { transform: translateX(-100%); }
+      50%,75%  { transform: translateX(-200%); }
+      75%,100%  { transform: translateX(-300%); }
+      100%     { transform: translateX(0%); }
+    }
+
+    #foot {
+      display: flex;
+      justify-content: space-around;
+      padding: 40px 20px;
+      background: #333;
+      color: white;
+      flex-wrap: wrap;
+    }
+
+    .down h1 {
+      margin-bottom: 15px;
+      color: #ff7b00;
+    }
+
+    .down ul, .info p { line-height: 1.8; }
+
+    #caption {
+      background: #e63946;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+      .explore-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    background: #ff7b00;
+    color: white;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+.explore-btn:hover {
+  background: #e63946;
+  transform: scale(1.05);
+}
+
+    @media (max-width: 768px) {
+      nav{
+        font-size: 1rem;
+        padding:10px 20px;
+      }
+      
+      #leftnav p{
+        
+        font-size: 1rem;
+      }
+      #leftnav img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+    }
+      #aboutus { flex-direction: column; padding: 40px 20px; }
+      #service { flex-direction: column;align-items: center; }
+      #food { flex-direction: column; align-items: center;  }
+      #reviews h1 { font-size: 1.5rem; }
+      .review { padding: 20px; }
+      .down{
+        padding:10px;
+      }
+      #caption{
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div id="leftnav">
+        <img src="logo.png" alt="">
+        <p>SVKM EATS</p>
+      </div> 
+      <div id="rightnav">
+        <a href="#">Home</a>
+        <a href="#">About us</a>
+        <a href="#">Service</a>
+        <a href="#">Menu</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <div id="fakeh"></div>
+
+  <section id="mainpage">
+    <div id="overlay"></div>
+    <div id="text">
+      <h1>Enjoy the Flavours</h1>
+      <p>Delicious meals crafted with passion, served with love, and inspired by tradition.</p>
+      <a href="#aboutus" class="explore-btn">Explore More</a>
+    </div>
+  </section>
+
+  <section id="aboutus">
+    <div id="photos">
+      <img src="hotel1.png" alt="1">
+      <img src="hotel2.png" alt="2" >
+      <img src="hotel3.png" alt="3">
+      <img src="hotel4.png" alt="4" >
+    </div>
+    <div id="texts">
+      <h2>About Us</h2>
+      <p>Welcome to SVKM Eats! We bring you the finest flavors from around the world with a touch of tradition.</p>
+      <p>From sizzling appetizers to gourmet main courses, our chefs are passionate about food that warms the heart.</p>
+      <div id="count">
+        <div>
+          <p>10+</p>
+          <span>Years of Experience</span>
+        </div>
+        <div>
+          <p>26</p>
+          <span>Master Chefs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="service">
+    <div class="box">
+      <img src="ochef.png" alt="">
+      <h1>Master Chefs</h1>
+      <p>Our chefs bring creativity and excellence to every dish.</p>
+    </div>
+    <div class="box">
+      <img src="cutlery.png" alt="">
+      <h1>Quality Foods</h1>
+      <p>We use the freshest ingredients for unforgettable meals.</p>
+    </div>
+    <div class="box">
+      <img src="shopping-cart.png" alt="">
+      <h1>Online Orders</h1>
+      <p>Order from the comfort of your home with quick delivery.</p>
+    </div>
+    <div class="box">
+      <img src="24-hours.png" alt="">
+      <h1>24/7 Service</h1>
+      <p>We’re here for you any time, any day of the week.</p>
+    </div>
+  </section>
+
+  <section id="menu">
+    <h1>Food Menu</h1>
+    <div id="food">
+      <div class="looks">
+        <img src="burgers.png" alt="">
+        <div>
+          <h1>Burgers</h1>
+          <span>$199</span>
+          <p>Juicy patties with fresh toppings for the perfect bite.</p>
+        </div>
+      </div>
+      <div class="looks">
+        <img src="pizza.png" alt="">
+        <div>
+          <h1>Pizza</h1>
+          <span>$299</span>
+          <p>Stone-baked pizzas with a cheesy, crispy finish.</p>
+        </div>
+      </div>
+      <div class="looks">
+        <img src="chinese.png" alt="">
+        <div>
+          <h1>Chinese</h1>
+          <span>$249</span>
+          <p>Authentic flavors with a delightful modern twist.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="members">
+    <h3>Team Members</h3>
+    <h1>Our Master Chefs</h1>
+    <div id="intro">
+      <div class="boxes">
+        <img src="chef1.png" alt="">
+        <h1>Chef 1</h1>
+        <h4>Head Chef</h4>
+      </div>
+      <div class="boxes">
+        <img src="chef2.png" alt="">
+        <h1>Chef 2</h1>
+        <h4>Pastry Chef</h4>
+      </div>
+      <div class="boxes">
+        <img src="chef3.png" alt="">
+        <h1>Chef 3</h1>
+        <h4>Sous Chef</h4>
+      </div>
+      <div class="boxes">
+        <img src="chef4.png" alt="">
+        <h1>Chef 4</h1>
+        <h4>Grill Master</h4>
+      </div>
+    </div>
+  </section>
+
+ 
+  <section id="reviews">
+    <h1>What Our Customers Say</h1>
+    <div class="review-slider">
+      <div class="reviews">
+        <div class="review">
+          <p>“Amazing food and quick service! Highly recommended.”</p>
+          <h3>— Priya Sharma</h3>
+        </div>
+        <div class="review">
+          <p>“The best burgers I’ve ever had. Perfectly cooked and flavorful.”</p>
+          <h3>— Rahul Mehta</h3>
+        </div>
+        <div class="review">
+          <p>“Love the ambience and friendly staff. Will visit again!”</p>
+          <h3>— Sneha Patel</h3>
+        </div>
+        <div class="review">
+          <p>“Quality food at reasonable prices. Truly a great experience.”</p>
+          <h3>— Aman Gupta</h3>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ 
+  <footer>
+    <div id="foot">
+      <div class="down">
+        <h1>Company</h1>
+        <ul>
+          <li>About us</li>
+          <li>Contact Us</li>
+          <li>Reservation</li>
+          <li>Privacy Policy</li>
+          <li>Terms & Conditions</li>
+        </ul>
+      </div>
+      <div class="down">
+        <h1>Contact</h1>
+        <div class="info">
+          <p>&#x1F4CD; Virar west, India</p>
+          <p>&#128222; +91 123456789</p>
+          <p>&#9993; xyz@gmail.com</p>
+        </div>
+      </div>
+      <div class="down">
+        <h1>Opening</h1>
+        <div class="info">
+          <p>Mon - Sat: 09AM - 09PM</p>
+          <p>Sunday: 10AM - 10PM</p>
+        </div>
+      </div>
+      <div class="down">
+        <h1>Newsletter</h1>
+        <p>Subscribe for exclusive offers and updates.</p>
+      </div>
+    </div>
+    <div id="caption">
+    <p>© 2025 SVKM Eats. All rights reserved.</p>
+   </div>
+  </footer>
+  </body>
+  </html>
+
+   
